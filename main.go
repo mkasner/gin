@@ -145,6 +145,12 @@ func scanChanges(watchPath string, cb scanCallback) {
 				return errors.New("done")
 			}
 
+			if filepath.Ext(path) == ".html" && info.ModTime().After(startTime) {
+				cb(path)
+				startTime = time.Now()
+				return errors.New("done")
+			}
+
 			return nil
 		})
 		time.Sleep(500 * time.Millisecond)
